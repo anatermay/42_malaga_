@@ -1,0 +1,2 @@
+El mapa deberá estar cerrado/rodeado de muros, en caso contrario el programa
+deberá devolver un error

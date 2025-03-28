@@ -1,0 +1,1 @@
+Tienes que comprobar si hay un camino válido en el mapa.
