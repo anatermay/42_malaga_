@@ -2,7 +2,5 @@
 *.a
 .DS_STORE
 .gitignore
-*.sh
 *.txt
-*.md
 .vscode*
