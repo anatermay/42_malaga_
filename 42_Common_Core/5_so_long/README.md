@@ -31,7 +31,7 @@
 
 # SO_LONG
 
-<img src="./screenshot.png"><img src="./character.png">
+<img src="./screenshot.png"><img style="width: 180px; height: 180px" src="./character.png">
 
 ## Descripción
 
