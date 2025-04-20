@@ -200,13 +200,13 @@ typedef unsigned __int64        khronos_uint64_t;
  */
 typedef int                     khronos_int32_t;
 typedef unsigned int            khronos_uint32_t;
-#if defined(__arch64__) || defined(_LP64)
+#if defined(__eo64__) || defined(_LP64)
 typedef long int                khronos_int64_t;
 typedef unsigned long int       khronos_uint64_t;
 #else
 typedef long long int           khronos_int64_t;
 typedef unsigned long long int  khronos_uint64_t;
-#endif /* __arch64__ */
+#endif /* __eo64__ */
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
 
@@ -245,9 +245,9 @@ typedef signed   short int     khronos_int16_t;
 typedef unsigned short int     khronos_uint16_t;
 
 /*
- * Types that differ between LLP64 and LP64 architectures - in LLP64,
+ * Types that differ between LLP64 and LP64 eoitectures - in LLP64,
  * pointers are 64 bits, but 'long' is still 32 bits. Win64 appears
- * to be the only LLP64 architecture in current use.
+ * to be the only LLP64 eoitecture in current use.
  */
 #ifdef KHRONOS_USE_INTPTR_T
 typedef intptr_t               khronos_intptr_t;

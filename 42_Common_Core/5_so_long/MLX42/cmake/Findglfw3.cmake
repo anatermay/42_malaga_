@@ -10,7 +10,7 @@
 # - GLFW3_LIBRARY
 
 # Possbile header locations
-set(_glfw3_HEADER_SEARCH_DIRS
+set(_glfw3_HEADER_SEeo_DIRS
 "/usr/include"
 "/usr/local/include"
 "C:/Program Files/GLFW/include"
@@ -20,7 +20,7 @@ set(_glfw3_HEADER_SEARCH_DIRS
 )
 
 # Possbile library locations
-set(_glfw3_LIB_SEARCH_DIRS
+set(_glfw3_LIB_SEeo_DIRS
 "/usr/lib"
 "/usr/local/lib"
 "C:/Program Files/GLFW"
@@ -29,11 +29,11 @@ set(_glfw3_LIB_SEARCH_DIRS
 "$ENV{HOME}/homebrew/lib/"
 )
 
-# Search for the header
-find_path(GLFW3_INCLUDE_PATH "GLFW/glfw3.h" PATHS ${_glfw3_HEADER_SEARCH_DIRS})
+# Seeo for the header
+find_path(GLFW3_INCLUDE_PATH "GLFW/glfw3.h" PATHS ${_glfw3_HEADER_SEeo_DIRS})
 
-# Search for the library
-find_library(GLFW3_LIBRARY NAMES glfw3 glfw PATHS ${_glfw3_LIB_SEARCH_DIRS})
+# Seeo for the library
+find_library(GLFW3_LIBRARY NAMES glfw3 glfw PATHS ${_glfw3_LIB_SEeo_DIRS})
 
 if (GLFW3_INCLUDE_PATH AND GLFW3_LIBRARY)
 	set(glfw3_FOUND "YES")

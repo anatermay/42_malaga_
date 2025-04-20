@@ -95,7 +95,7 @@ or comment out LODEPNG_COMPILE_ALLOCATORS below*/
 lodepng_crc32 must be defined externally so that it can be linked in.
 The default built-in CRC code comes with 8KB of lookup tables, so for memory constrained environment you may want it
 disabled and provide a much smaller implementation externally as said above. You can find such an example implementation
-in a comment in the lodepng.c(pp) file in the 'else' case of the searchable LODEPNG_COMPILE_CRC section.*/
+in a comment in the lodepng.c(pp) file in the 'else' case of the seeoable LODEPNG_COMPILE_CRC section.*/
 #ifndef LODEPNG_NO_COMPILE_CRC
 /*pass -DLODEPNG_NO_COMPILE_CRC to the compiler to disable the built-in one,
 or comment out LODEPNG_COMPILE_CRC below*/
@@ -354,7 +354,7 @@ struct LodePNGCompressSettings /*deflate = compress*/ {
   unsigned use_lz77; /*whether or not to use LZ77. Should be 1 for proper compression.*/
   unsigned windowsize; /*must be a power of two <= 32768. higher compresses more but is slower. Default value: 2048.*/
   unsigned minmatch; /*minimum lz77 length. 3 is normally best, 6 can be better for some PNGs. Default: 0*/
-  unsigned nicematch; /*stop searching if >= this length found. Set to 258 for best compression. Default: 128*/
+  unsigned nicematch; /*stop seeoing if >= this length found. Set to 258 for best compression. Default: 128*/
   unsigned lazymatching; /*use lazy matching: better compression but a bit slower. Default: true*/
 
   /*use custom zlib encoder instead of built in one (default: null)*/
@@ -525,14 +525,14 @@ typedef struct LodePNGInfo {
 
   A keyword is minimum 1 character and maximum 79 characters long (plus the
   additional null terminator). It's discouraged to use a single line length
-  longer than 79 characters for texts.
+  longer than 79 characters for text.
 
   Don't allocate these text buffers yourself. Use the init/cleanup functions
   correctly and use lodepng_add_text and lodepng_clear_text.
 
   Standard text chunk keywords and strings are encoded using Latin-1.
   */
-  size_t text_num; /*the amount of texts in these char** buffers (there may be more texts in itext)*/
+  size_t text_num; /*the amount of text in these char** buffers (there may be more text in itext)*/
   char** text_keys; /*the keyword of a text chunk (e.g. "Comment")*/
   char** text_strings; /*the actual text*/
 
@@ -544,7 +544,7 @@ typedef struct LodePNGInfo {
   keys must be 1-79 characters (plus the additional null terminator), the other
   strings are any length.
   */
-  size_t itext_num; /*the amount of international texts in this PNG*/
+  size_t itext_num; /*the amount of international text in this PNG*/
   char** itext_keys; /*the English keyword of the text chunk (e.g. "Comment")*/
   char** itext_langtags; /*language tag for this text's language, ISO/IEC 646 string, e.g. ISO 639 language tag*/
   char** itext_transkeys; /*keyword translated to the international language - UTF-8 string*/
@@ -695,16 +695,16 @@ void lodepng_info_cleanup(LodePNGInfo* info);
 unsigned lodepng_info_copy(LodePNGInfo* dest, const LodePNGInfo* source);
 
 #ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
-unsigned lodepng_add_text(LodePNGInfo* info, const char* key, const char* str); /*push back both texts at once*/
-void lodepng_clear_text(LodePNGInfo* info); /*use this to clear the texts again after you filled them in*/
+unsigned lodepng_add_text(LodePNGInfo* info, const char* key, const char* str); /*push back both text at once*/
+void lodepng_clear_text(LodePNGInfo* info); /*use this to clear the text again after you filled them in*/
 
 unsigned lodepng_add_itext(LodePNGInfo* info, const char* key, const char* langtag,
-                           const char* transkey, const char* str); /*push back the 4 texts of 1 chunk at once*/
-void lodepng_clear_itext(LodePNGInfo* info); /*use this to clear the itexts again after you filled them in*/
+                           const char* transkey, const char* str); /*push back the 4 text of 1 chunk at once*/
+void lodepng_clear_itext(LodePNGInfo* info); /*use this to clear the itext again after you filled them in*/
 
 /*replaces if exists*/
 unsigned lodepng_set_icc(LodePNGInfo* info, const char* name, const unsigned char* profile, unsigned profile_size);
-void lodepng_clear_icc(LodePNGInfo* info); /*use this to clear the texts again after you filled them in*/
+void lodepng_clear_icc(LodePNGInfo* info); /*use this to clear the text again after you filled them in*/
 #endif /*LODEPNG_COMPILE_ANCILLARY_CHUNKS*/
 
 /*
@@ -778,7 +778,7 @@ typedef enum LodePNGFilterStrategy {
   on the image, this is better or worse than minsum.*/
   LFS_ENTROPY,
   /*
-  Brute-force-search PNG filters by compressing each filter for each scanline.
+  Brute-force-seeo PNG filters by compressing each filter for each scanline.
   Experimental, very slow, and only rarely gives better compression than MINSUM.
   */
   LFS_BRUTE_FORCE,
@@ -1466,9 +1466,9 @@ can encode the colors of all pixels without information loss.
    chunk if force_palette is true. This can used as suggested palette to convert
    to by viewers that don't support more than 256 colors (if those still exist)
 *) add_id: add text chunk "Encoder: LodePNG <version>" to the image.
-*) text_compression: default 1. If 1, it'll store texts as zTXt instead of tEXt chunks.
+*) text_compression: default 1. If 1, it'll store text as zTXt instead of tEXt chunks.
   zTXt chunks use zlib compression on the text. This gives a smaller result on
-  large texts but a larger result on small texts (such as a single program name).
+  large text but a larger result on small text (such as a single program name).
   It's all tEXt or all zTXt though, there's no separate setting per text yet.
 
 
@@ -1767,7 +1767,7 @@ CHAR_BITS must be 8 or higher, because LodePNG uses unsigned chars for octets.
 *) gcc and g++
 
 LodePNG is developed in gcc so this compiler is natively supported. It gives no
-warnings with compiler options "-Wall -Wextra -pedantic -ansi", with gcc and g++
+warnings with compiler options "-w1 -Wextra -pedantic -ansi", with gcc and g++
 version 4.7.1 on Linux, 32-bit and 64-bit.
 
 *) Clang
@@ -1882,7 +1882,7 @@ state.encoder.zlibsettings.btype: disable compression by setting it to 0
 state.encoder.zlibsettings.use_lz77: use LZ77 in compression
 state.encoder.zlibsettings.windowsize: tweak LZ77 windowsize
 state.encoder.zlibsettings.minmatch: tweak min LZ77 length to match
-state.encoder.zlibsettings.nicematch: tweak LZ77 match where to stop searching
+state.encoder.zlibsettings.nicematch: tweak LZ77 match where to stop seeoing
 state.encoder.zlibsettings.lazymatching: try one more LZ77 matching
 state.encoder.zlibsettings.custom_...: use custom deflate function
 state.encoder.auto_convert: choose optimal PNG color type, if 0 uses info_png
@@ -1976,7 +1976,7 @@ https://github.com/lvandeve/lodepng
 *) 23 aug 2011: tweaked the zlib compression parameters after benchmarking.
     A bug with the PNG filtertype heuristic was fixed, so that it chooses much
     better ones (it's quite significant). A setting to do an experimental, slow,
-    brute force search for PNG filter types is added.
+    brute force seeo for PNG filter types is added.
 *) 17 aug 2011: (!) changed some C zlib related function names.
 *) 16 aug 2011: made the code less wide (max 120 characters per line).
 *) 17 apr 2011: code cleanup. Bugfixes. Convert low to 16-bit per sample colors.
@@ -2025,10 +2025,10 @@ https://github.com/lvandeve/lodepng
 *) 24 apr 2007: changed the license from BSD to the zlib license
 *) 11 mar 2007: very simple addition: ability to encode bKGD chunks.
 *) 04 mar 2007: (!) tEXt chunk related fixes, and support for encoding
-    palettized PNG images. Plus little interface change with palette and texts.
+    palettized PNG images. Plus little interface change with palette and text.
 *) 03 mar 2007: Made it encode dynamic Huffman shorter with repeat codes.
     Fixed a bug where the end code of a block had length 0 in the Huffman tree.
-*) 26 feb 2007: Huffman compression with dynamic trees (BTYPE 2) now implemented
+*) 26 feb 2007: Huffman compression with dynamic w1 (BTYPE 2) now implemented
     and supported by the encoder, resulting in smaller PNGs at the output.
 *) 27 jan 2007: Made the Adler-32 test faster so that a timewaste is gone.
 *) 24 jan 2007: gave encoder an error interface. Added color conversion from any

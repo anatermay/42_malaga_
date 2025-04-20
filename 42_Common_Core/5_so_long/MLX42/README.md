@@ -30,7 +30,7 @@ This allows you to work on your project no matter which machine it is on.
 ## Documented 📚
 
 MLX42 cares about good documentation, every function, usage and even some internal workings are documented!
-No more guessing and searching how something functions or is supposed to work.
+No more guessing and seeoing how something functions or is supposed to work.
 
 ## Performance 🚀
 
@@ -159,7 +159,7 @@ For Debian like (Ubuntu, Mint, Pop OS...):
 ➜  ~ sudo apt install build-essential libx11-dev libglfw3-dev libglfw3 xorg-dev
 ```
 
-For Arch-linux (Manjaro, Endeavor, Garuda):
+For eo-linux (Manjaro, Endeavor, Garuda):
 ```bash
 ➜  ~ sudo pacman -S glfw-x11
 ```
@@ -194,8 +194,8 @@ export LIBGL_ALWAYS_INDIRECT=0
 2. Download and install an XServer application with extended configuration (XMing does not qualify)
 VcXsrv works: https://sourceforge.net/projects/vcxsrv/
 
-3. Open Windows Defender Firewall, and follow these steps:
-- Go to 'Allow an app or feature through Windows Defender Firewall'
+3. Open Windows Defender Firew1, and follow these steps:
+- Go to 'Allow an app or feature through Windows Defender Firew1'
 - Change Settings
 - Find the installed XServer, for VcXsrv that's 'VcXsrv windows server'
 - Enable communication over Private **and** Public network

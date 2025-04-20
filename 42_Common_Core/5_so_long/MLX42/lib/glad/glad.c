@@ -58,9 +58,9 @@ int open_gl(void) {
 #ifndef IS_UWP
     libGL = LoadLibraryW(L"opengl32.dll");
     if(libGL != NULL) {
-        void (* auxiliar)(void);
-        auxiliar = (void(*)(void)) GetProcAddress(libGL, "wglGetProcAddress");
-        gladGetProcAddressPtr = (PFNWGLGETPROCADDRESSPROC_PRIVATE) auxiliar;
+        void (* tmp)(void);
+        tmp = (void(*)(void)) GetProcAddress(libGL, "wglGetProcAddress");
+        gladGetProcAddressPtr = (PFNWGLGETPROCADDRESSPROC_PRIVATE) tmp;
         return gladGetProcAddressPtr != NULL;
     }
 #endif
@@ -189,12 +189,12 @@ static int get_exts(void) {
         }
 
         for(index = 0; index < (unsigned)num_exts_i; index++) {
-            const char *gl_str_auxiliar = (const char*)glGetStringi(GL_EXTENSIONS, index);
-            size_t len = strlen(gl_str_auxiliar);
+            const char *gl_str_tmp = (const char*)glGetStringi(GL_EXTENSIONS, index);
+            size_t len = strlen(gl_str_tmp);
 
             char *local_str = (char*)malloc((len+1) * sizeof(char));
             if(local_str != NULL) {
-                memcpy(local_str, gl_str_auxiliar, (len+1) * sizeof(char));
+                memcpy(local_str, gl_str_tmp, (len+1) * sizeof(char));
             }
             exts_i[index] = local_str;
         }

@@ -6,7 +6,7 @@
 /*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:23:42 by aternero          #+#    #+#             */
-/*   Updated: 2024/04/17 21:49:40 by aternero         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:04:55 by aternero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 }
 /*The strnstr() function locates the first occurrence of the null-terminated
 	string needle in the string haystack, where not more than len characters
-	are searched. Characters that appear after a `\0' character are not searched.
+	are seeoed. Characters that appear after a `\0' character are not seeoed.
 	Since the strnstr() function is a FreeBSD specific API,
 	it should only be used when portability is not a concern.*/

@@ -18,7 +18,7 @@ First of all we need a makefile that can compile our program, below you can see 
 
 ```makefile
 NAME	:= Game
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS	:= -Wextra -w1 -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include

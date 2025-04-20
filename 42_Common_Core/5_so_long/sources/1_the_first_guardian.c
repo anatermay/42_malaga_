@@ -6,38 +6,13 @@
 /*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:23:33 by aternero          #+#    #+#             */
-/*   Updated: 2025/03/13 13:46:25 by aternero         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:19:06 by aternero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_file/so_long.h"
 
-/*
- * This file contains the implementation of functions for validating the map
- * and counting specific elements in the so_long game.
- * 
- * The main features of this code include:
- * - elements_calculator: A function to count the occurrences of a specific
- *   character in the map.
- * - mapval_rectangle: A function to check if the map is a rectangle and
- *   contains valid characters.
- * - mapval_ber: A function to validate the map file extension.
- * - map_validator: The main function that validates the map file and its
- *   contents.
- * 
- * Usage:
- * - These functions are used internally by the so_long game to ensure the
- *   map is valid and meets the required format before starting the game.
- * 
- * Dependencies:
- * - This file depends on the so_long.h header file for type definitions and
- *   function declarations.
- * 
- * Author: AnaTerMay
- * Date: 13/03/2025
- */
-
-int	elements_calculator(t_map *map, char c)
+int	elements_calculator_t(t_map *map, char c)
 {
 	int		count;
 	int		x;
@@ -94,7 +69,7 @@ int	mapval_ber(char *argv)
 		}
 		index++;
 	}
-	putstr_sl("It's necessary a map with '.ber' extension as an argument.\n");
+	ft_printf("It's necessary a map with '.ber' extension as an argument.\n");
 	map_error("\tUsage: ./so_long [map.ber]\n", 0, 0);
 	return (FALSE);
 }
@@ -110,8 +85,10 @@ int	map_validator(char *argv)
 	if (!map)
 		return (FALSE);
 	if (mapval_content(map) == FALSE)
+	{
+		free_t_map(&map);
 		return (FALSE);
-	putstr_sl("\n\t\t\t\t\t\t¡¡¡You CAN play!!!");
-	free_map(map);
+	}
+	free_t_map(&map);
 	return (TRUE);
 }

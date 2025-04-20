@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    xpm3_conv.py                                       :+:    :+:             #
-#                                                      +:+                     #
-#    By: pvan-dij <pvan-dij@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/02/09 21:04:31 by pvan-dij      #+#    #+#                  #
-#    Updated: 2022/02/23 16:48:19 by lde-la-h      ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    xpm3_conv.py                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/02/09 21:04:31 by pvan-dij          #+#    #+#              #
+#    Updated: 2025/03/14 18:05:06 by aternero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ import sys
 
 # This is a generated dictionary from the XFree86 distribution.
 colours = {
-	"snow":"fffafa",
+	"f0":"fffafa",
 	"ghost white":"f8f8ff",
 	"ghostwhite":"f8f8ff",
 	"white smoke":"f5f5f5",
@@ -240,10 +240,10 @@ colours = {
 	"medium purple":"9370db",
 	"mediumpurple":"9370db",
 	"thistle":"d8bfd8",
-	"snow1":"fffafa",
-	"snow2":"eee9e9",
-	"snow3":"cdc9c9",
-	"snow4":"8b8989",
+	"f01":"fffafa",
+	"f02":"eee9e9",
+	"f03":"cdc9c9",
+	"f04":"8b8989",
 	"seashell1":"fff5ee",
 	"seashell2":"eee5de",
 	"seashell3":"cdc5bf",

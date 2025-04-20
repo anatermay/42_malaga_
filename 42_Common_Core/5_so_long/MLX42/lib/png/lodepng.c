@@ -40,7 +40,7 @@ Rename this file to lodepng.cpp to use it for C++, or to lodepng.c to use it for
 #endif /* LODEPNG_COMPILE_ALLOCATORS */
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1310) /*Visual Studio: A few warning types are not desired here.*/
-#pragma warning( disable : 4244 ) /*implicit conversions: not warned by gcc -Wall -Wextra and requires too much casts*/
+#pragma warning( disable : 4244 ) /*implicit conversions: not warned by gcc -w1 -Wextra and requires too much casts*/
 #pragma warning( disable : 4996 ) /*VS does not like fopen, but fopen_s is not standard C so unusable here*/
 #endif /*_MSC_VER */
 
@@ -866,7 +866,7 @@ static BPMNode* bpmnode_create(BPMLists* lists, int weight, unsigned index, BPMN
   unsigned i;
   BPMNode* result;
 
-  /*memory full, so garbage collect*/
+  /*memory full, so garbage c*/
   if(lists->nextfree >= lists->numfree) {
     /*mark only those that are in use*/
     for(i = 0; i != lists->memsize; ++i) lists->memory[i].in_use = 0;
@@ -875,7 +875,7 @@ static BPMNode* bpmnode_create(BPMLists* lists, int weight, unsigned index, BPMN
       for(node = lists->chains0[i]; node != 0; node = node->tail) node->in_use = 1;
       for(node = lists->chains1[i]; node != 0; node = node->tail) node->in_use = 1;
     }
-    /*collect those that are free*/
+    /*c those that are free*/
     lists->numfree = 0;
     for(i = 0; i != lists->memsize; ++i) {
       if(!lists->memory[i].in_use) lists->freelist[lists->numfree++] = &lists->memory[i];
@@ -1112,7 +1112,7 @@ static unsigned getTreeInflateDynamic(HuffmanTree* tree_ll, HuffmanTree* tree_d,
   unsigned* bitlen_d = 0; /*dist code lengths*/
   /*code length code lengths ("clcl"), the bit lengths of the huffman tree used to compress bitlen_ll and bitlen_d*/
   unsigned* bitlen_cl = 0;
-  HuffmanTree tree_cl; /*the code tree for code length codes (the huffman tree for compressed huffman trees)*/
+  HuffmanTree tree_cl; /*the code tree for code length codes (the huffman tree for compressed huffman w1)*/
 
   if(reader->bitsize - reader->bp < 14) return 49; /*error: the bit pointer is or will go past the memory*/
   ensureBits17(reader, 14);
@@ -1218,7 +1218,7 @@ static unsigned getTreeInflateDynamic(HuffmanTree* tree_ll, HuffmanTree* tree_d,
 
     if(bitlen_ll[256] == 0) ERROR_BREAK(64); /*the length of the end code 256 must be larger than 0*/
 
-    /*now we've finally got HLIT and HDIST, so generate the code trees, and the function is done*/
+    /*now we've finally got HLIT and HDIST, so generate the code w1, and the function is done*/
     error = HuffmanTree_makeFromLengths(tree_ll, bitlen_ll, NUM_DEFLATE_CODE_SYMBOLS, 15);
     if(error) break;
     error = HuffmanTree_makeFromLengths(tree_d, bitlen_d, NUM_DISTANCE_SYMBOLS, 15);
@@ -1441,10 +1441,10 @@ static unsigned inflatev(ucvector* out, const unsigned char* in, size_t insize,
 
 static const size_t MAX_SUPPORTED_DEFLATE_LENGTH = 258;
 
-/*search the index in the array, that has the largest value smaller than or equal to the given value,
+/*seeo the index in the array, that has the largest value smaller than or equal to the given value,
 given array must be sorted (if no value is smaller, it returns the size of the given array)*/
-static size_t searchCodeIndex(const unsigned* array, size_t array_size, size_t value) {
-  /*binary search (only small gain over linear). TODO: use CPU log2 instruction for getting symbols instead*/
+static size_t seeoCodeIndex(const unsigned* array, size_t array_size, size_t value) {
+  /*binary seeo (only small gain over linear). TODO: use CPU log2 instruction for getting symbols instead*/
   size_t left = 1;
   size_t right = array_size - 1;
 
@@ -1464,9 +1464,9 @@ static void addLengthDistance(uivector* values, size_t length, size_t distance) 
   257-285: length/distance pair (length code, followed by extra length bits, distance code, extra distance bits)
   286-287: invalid*/
 
-  unsigned length_code = (unsigned)searchCodeIndex(LENGTHBASE, 29, length);
+  unsigned length_code = (unsigned)seeoCodeIndex(LENGTHBASE, 29, length);
   unsigned extra_length = (unsigned)(length - LENGTHBASE[length_code]);
-  unsigned dist_code = (unsigned)searchCodeIndex(DISTANCEBASE, 30, distance);
+  unsigned dist_code = (unsigned)seeoCodeIndex(DISTANCEBASE, 30, distance);
   unsigned extra_distance = (unsigned)(distance - DISTANCEBASE[dist_code]);
 
   size_t pos = values->size;
@@ -1581,7 +1581,7 @@ is in the form of unsigned integers with codes representing for example literal 
 length/distance pairs.
 It uses a hash table technique to let it encode faster. When doing LZ77 encoding, a
 sliding window (of windowsize) is used, and all past bytes in that window can be used as
-the "dictionary". A brute force search through all possible distances would be slow, and
+the "dictionary". A brute force seeo through all possible distances would be slow, and
 this hash technique is one out of several ways to speed this up.
 */
 static unsigned encodeLZ77(uivector* out, Hash* hash,
@@ -1634,7 +1634,7 @@ static unsigned encodeLZ77(uivector* out, Hash* hash,
 
     lastptr = &in[insize < pos + MAX_SUPPORTED_DEFLATE_LENGTH ? insize : pos + MAX_SUPPORTED_DEFLATE_LENGTH];
 
-    /*search for the longest string*/
+    /*seeo for the longest string*/
     prev_offset = 0;
     for(;;) {
       if(chainlength++ >= maxchainlength) break;
@@ -1769,7 +1769,7 @@ static unsigned deflateNoCompression(ucvector* out, const unsigned char* data, s
 }
 
 /*
-write the lz77-encoded data, which has lit, len and dist codes, to compressed stream using huffman trees.
+write the lz77-encoded data, which has lit, len and dist codes, to compressed stream using huffman w1.
 tree_ll: the tree for lit and len codes.
 tree_d: the tree for distance codes.
 */
@@ -1797,7 +1797,7 @@ static void writeLZ77data(LodePNGBitWriter* writer, const uivector* lz77_encoded
   }
 }
 
-/*Deflate for a block of type "dynamic", that is, with freely, optimally, created huffman trees*/
+/*Deflate for a block of type "dynamic", that is, with freely, optimally, created huffman w1*/
 static unsigned deflateDynamic(LodePNGBitWriter* writer, Hash* hash,
                                const unsigned char* data, size_t datapos, size_t dataend,
                                const LodePNGCompressSettings* settings, unsigned final) {
@@ -1806,8 +1806,8 @@ static unsigned deflateDynamic(LodePNGBitWriter* writer, Hash* hash,
   /*
   A block is compressed as follows: The PNG data is lz77 encoded, resulting in
   literal bytes and length/distance pairs. This is then huffman compressed with
-  two huffman trees. One huffman tree is used for the lit and len values ("ll"),
-  another huffman tree is used for the dist values ("d"). These two trees are
+  two huffman w1. One huffman tree is used for the lit and len values ("ll"),
+  another huffman tree is used for the dist values ("d"). These two w1 are
   stored using their code lengths, and to compress even more these code lengths
   are also run-length encoded and huffman compressed. This gives a huffman tree
   of code lengths "cl". The code lengths used to describe this third tree are
@@ -1879,7 +1879,7 @@ static unsigned deflateDynamic(LodePNGBitWriter* writer, Hash* hash,
     }
     frequencies_ll[256] = 1; /*there will be exactly 1 end code, at the end of the block*/
 
-    /*Make both huffman trees, one for the lit and len codes, one for the dist codes*/
+    /*Make both huffman w1, one for the lit and len codes, one for the dist codes*/
     error = HuffmanTree_makeFromFrequencies(&tree_ll, frequencies_ll, 257, 286, 15);
     if(error) break;
     /*2, not 1, is chosen for mincodes: some buggy PNG decoders require at least 2 symbols in the dist tree*/
@@ -1888,7 +1888,7 @@ static unsigned deflateDynamic(LodePNGBitWriter* writer, Hash* hash,
 
     numcodes_ll = LODEPNG_MIN(tree_ll.numcodes, 286);
     numcodes_d = LODEPNG_MIN(tree_d.numcodes, 30);
-    /*store the code lengths of both generated trees in bitlen_lld*/
+    /*store the code lengths of both generated w1 in bitlen_lld*/
     numcodes_lld = numcodes_ll + numcodes_d;
     bitlen_lld = (unsigned*)lodepng_malloc(numcodes_lld * sizeof(*bitlen_lld));
     /*numcodes_lld_e never needs more size than bitlen_lld*/
@@ -1935,7 +1935,7 @@ static unsigned deflateDynamic(LodePNGBitWriter* writer, Hash* hash,
       }
     }
 
-    /*generate tree_cl, the huffmantree of huffmantrees*/
+    /*generate tree_cl, the huffmantree of huffmanw1*/
     for(i = 0; i != numcodes_lld_e; ++i) {
       ++frequencies_cl[bitlen_lld_e[i]];
       /*after a repeat code come the bits that specify the number of repetitions,
@@ -4911,7 +4911,7 @@ static unsigned readChunk_iTXt(LodePNGInfo* info, const LodePNGDecoderSettings* 
     if(data[length + 2] != 0) CERROR_BREAK(error, 72); /*the 0 byte indicating compression must be 0*/
 
     /*even though it's not allowed by the standard, no error is thrown if
-    there's no null termination char, if the text is empty for the next 3 texts*/
+    there's no null termination char, if the text is empty for the next 3 text*/
 
     /*read the langtag*/
     begin = length + 3;
@@ -5604,31 +5604,31 @@ static unsigned addChunk_IEND(ucvector* out) {
 
 #ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
 
-static unsigned addChunk_tEXt(ucvector* out, const char* keyword, const char* textstring) {
+static unsigned addChunk_tEXt(ucvector* out, const char* keyword, const char* texttring) {
   unsigned char* chunk = 0;
-  size_t keysize = lodepng_strlen(keyword), textsize = lodepng_strlen(textstring);
-  size_t size = keysize + 1 + textsize;
+  size_t keysize = lodepng_strlen(keyword), textize = lodepng_strlen(texttring);
+  size_t size = keysize + 1 + textize;
   if(keysize < 1 || keysize > 79) return 89; /*error: invalid keyword size*/
   CERROR_TRY_RETURN(lodepng_chunk_init(&chunk, out, size, "tEXt"));
   lodepng_memcpy(chunk + 8, keyword, keysize);
   chunk[8 + keysize] = 0; /*null termination char*/
-  lodepng_memcpy(chunk + 9 + keysize, textstring, textsize);
+  lodepng_memcpy(chunk + 9 + keysize, texttring, textize);
   lodepng_chunk_generate_crc(chunk);
   return 0;
 }
 
-static unsigned addChunk_zTXt(ucvector* out, const char* keyword, const char* textstring,
+static unsigned addChunk_zTXt(ucvector* out, const char* keyword, const char* texttring,
                               LodePNGCompressSettings* zlibsettings) {
   unsigned error = 0;
   unsigned char* chunk = 0;
   unsigned char* compressed = 0;
   size_t compressedsize = 0;
-  size_t textsize = lodepng_strlen(textstring);
+  size_t textize = lodepng_strlen(texttring);
   size_t keysize = lodepng_strlen(keyword);
   if(keysize < 1 || keysize > 79) return 89; /*error: invalid keyword size*/
 
   error = zlib_compress(&compressed, &compressedsize,
-                        (const unsigned char*)textstring, textsize, zlibsettings);
+                        (const unsigned char*)texttring, textize, zlibsettings);
   if(!error) {
     size_t size = keysize + 2 + compressedsize;
     error = lodepng_chunk_init(&chunk, out, size, "zTXt");
@@ -5646,22 +5646,22 @@ static unsigned addChunk_zTXt(ucvector* out, const char* keyword, const char* te
 }
 
 static unsigned addChunk_iTXt(ucvector* out, unsigned compress, const char* keyword, const char* langtag,
-                              const char* transkey, const char* textstring, LodePNGCompressSettings* zlibsettings) {
+                              const char* transkey, const char* texttring, LodePNGCompressSettings* zlibsettings) {
   unsigned error = 0;
   unsigned char* chunk = 0;
   unsigned char* compressed = 0;
   size_t compressedsize = 0;
-  size_t textsize = lodepng_strlen(textstring);
+  size_t textize = lodepng_strlen(texttring);
   size_t keysize = lodepng_strlen(keyword), langsize = lodepng_strlen(langtag), transsize = lodepng_strlen(transkey);
 
   if(keysize < 1 || keysize > 79) return 89; /*error: invalid keyword size*/
 
   if(compress) {
     error = zlib_compress(&compressed, &compressedsize,
-                          (const unsigned char*)textstring, textsize, zlibsettings);
+                          (const unsigned char*)texttring, textize, zlibsettings);
   }
   if(!error) {
-    size_t size = keysize + 3 + langsize + 1 + transsize + 1 + (compress ? compressedsize : textsize);
+    size_t size = keysize + 3 + langsize + 1 + transsize + 1 + (compress ? compressedsize : textize);
     error = lodepng_chunk_init(&chunk, out, size, "iTXt");
   }
   if(!error) {
@@ -5680,7 +5680,7 @@ static unsigned addChunk_iTXt(ucvector* out, unsigned compress, const char* keyw
     if(compress) {
       lodepng_memcpy(chunk + pos, compressed, compressedsize);
     } else {
-      lodepng_memcpy(chunk + pos, textstring, textsize);
+      lodepng_memcpy(chunk + pos, texttring, textize);
     }
     lodepng_chunk_generate_crc(chunk);
   }

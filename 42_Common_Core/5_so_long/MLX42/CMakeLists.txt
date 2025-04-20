@@ -38,7 +38,7 @@ if(UNIX)
 	set(CCSHADER ${PROJECT_SOURCE_DIR}/tools/compile_shader.sh)
 	add_compile_options(
 		-Wextra
-		-Wall
+		-w1
 		-Werror
 		-Wunreachable-code
 		
@@ -91,7 +91,7 @@ add_library(mlx42 STATIC
 
 	# Root
 	${SOURCE_DIR}/mlx_cursor.c
-	${SOURCE_DIR}/mlx_exit.c
+	${SOURCE_DIR}/mlex.c
 	${SOURCE_DIR}/mlx_images.c
 	${SOURCE_DIR}/mlx_init.c
 	${SOURCE_DIR}/mlx_keys.c
@@ -175,6 +175,6 @@ install(
 install(TARGETS mlx42
 	EXPORT mlx42Targets
 	RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-	ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+	eoIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 	LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )

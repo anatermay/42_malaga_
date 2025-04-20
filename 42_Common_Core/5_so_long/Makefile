@@ -1,73 +1,69 @@
-# **_ NAME _**
-NAME	= so_long
+NAME 			= so_long
+CC 				= gcc
+CFLAGS 			= -Wall -Werror -Wextra -g
+MLX42 			= ./MLX42
+LIBFT 			= ./resources/libft
+FT_PRINTF		= ./resources/ft_printf
+INCLUDES 		= -I$(MLX42)/include -I$(LIBFT)/include -I$(FT_PRINTF) -Iincludes
+LIBS 			= -L$(MLX42)/lib -lmlx42 -lglfw -ldl -lm -lpthread -L$(LIBFT) -lft -L$(FT_PRINTF) -lftprintf
 
-# **_ ABBREVIATION _**
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g
+SOURCES_DIRECTORY 		= ./sources
+OBJECTS_DIRECTORY 		= ./objects
 
-# **_ SOURCES AND RESOURCES _**
-MLX42			= ./MLX42
+SOURCES_FILES 		= 0_the_threshold.c \
+					1_the_first_guardian.c \
+					2_the_world_architect.c \
+					3_the_second_guardian.c \
+					4_the_maze_explorer.c \
+					5_the_windows_engineer.c \
+					6_inns_receptionist.c \
+					7_detective.c \
+					8_leonardo_da_vinci.c \
+					9_telesketch.c \
+					10_keyboard.c \
+					appendix_cleaning_team.c \
+					appendix_map.c \
 
-# **_ DIRECTORIES _**
-LIBFT_DIR	= ./resources/LIBFT
-MLX42_DIR	= ./MLX42
+OBJECTS 			= $(addprefix $(OBJECTS_DIRECTORY)/, $(SOURCES_FILES:.c=.o))
 
-# **_ FILES _**
-SOURCES_FILES	= sources/so_long.c \
-					sources/game/game_initialize.c \
-					sources/graphics/mlx_init.c \
-					sources/graphics/novel_graphics_perspective.c \
-					sources/resources/novel_editorial.c \
-					sources/resources/novel_foot_notes.c \
-					sources/worldbuilding/worldbuilding_content_validator.c \
-					sources/worldbuilding/worldbuilding_init.c \
-					sources/worldbuilding/worldbuilding_validator.c \
+$(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.c
+	@mkdir -p $(OBJECTS_DIRECTORY)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# **_ OBJECTS _**
-OBJECTS			= $(SOURCES_FILES:.c=.o)
+$(NAME): $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a $(OBJECTS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBS)
+	@echo "SO_LONG: MAKE\t\t\t\t. . . OK"
 
-# **_ DEPENDENCIES _**
+$(LIBFT)/libft.a:
+	@$(MAKE) -C $(LIBFT) > /dev/null
+	@echo "SO_LONG: LIBFT\t\t\t\t. . . OK"
 
-# **_ COMPILATION RULES _**
+$(FT_PRINTF)/libftprintf.a:
+	@$(MAKE) -C $(FT_PRINTF) > /dev/null
+	@echo "SO_LONG: FT_PRINTF\t\t\t. . . OK"
 
-# _BONUS_
-
-# **_ ALL _**
 all: $(NAME)
+	@echo "SO_LONG: MAKE ALL\t\t\t. . . OK"
 
-$(NAME): $(OBJECTS) 
-	@${CC} ${CFLAGS} -o ${NAME} ${OBJECTS} 
-	@chmod +x $(NAME)
-	@echo "OK"
-
-%.o: %.c
-	@${CC} ${CFLAGS} -c $< -o $@
-
-# **_ CLEAN _**
 clean:
-	@rm -f $(OBJECTS) 
+	@$(MAKE) -C $(LIBFT) clean > /dev/null
+	@$(MAKE) -C $(FT_PRINTF) clean > /dev/null
+	@$(RM) -r $(OBJECTS_DIRECTORY)
+	@echo "SO_LONG: MAKE CLEAN\t\t\t. . . OK"
 
-# **_ FCLEAN _**
-fclean: clean
-	@rm -f $(NAME) 
+fclean:
+	@$(MAKE) -C $(LIBFT) clean > /dev/null
+	@$(MAKE) -C $(FT_PRINTF) clean > /dev/null
+	@$(RM) -r $(OBJECTS_DIRECTORY)
+	@$(MAKE) -C $(LIBFT) fclean > /dev/null
+	@$(MAKE) -C $(FT_PRINTF) fclean > /dev/null
+	@$(RM) $(NAME)
+	@$(RM) sources/*.o
+	@echo "SO_LONG: MAKE FCLEAN\t\t\t. . . OK"
 
-# **_ RE _**
 re: fclean all
+	@echo "SO_LONG: MAKE RE\t\t\t. . . OK"
 
-# **_ PHONY _**
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re
 
-# ** ______________________________________________________________________**
-
-echo"       .--.                   .---."
-echo"   .---|__|           .-.     |~~~|"
-echo".--|===|--|_          |_|     |~~~|--."
-echo"|  |===|  |'\     .---!~|  .--|   |--|"
-echo"|%%|   |  |.'\    |===| |--|%%|   |  |"
-echo"|%%|   |  |\.'\   |   | |__|  |   |  |"
-echo"|  |   |  | \  \  |===| |==|  |   |  |      |\      _,,,---,,_"
-echo"|  |   |__|  \.'\ |   |_|__|  |~~~|__|ZZZzz /,`.-'`'    -.  ;-;;,_"
-echo"|  |===|--|   \.'\|===|~|--|%%|~~~|--|     |,4-  ) )-,_. ,\ (  `'-'"
-echo"^--^---'--^    `-'`---^-^--^--^---'--'    '---''(_/--'  `-'\_)  " 
-
-# ** ______________________________________________________________________**
+# *** THE END ________________________________________________________________________*** #

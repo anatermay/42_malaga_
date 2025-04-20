@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_initialize.c                                  :+:      :+:    :+:   */
+/*   ft_printstr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:24:17 by aternero          #+#    #+#             */
-/*   Updated: 2025/03/13 11:29:13 by aternero         ###   ########.fr       */
+/*   Created: 2024/05/27 12:59:03 by aternero          #+#    #+#             */
+/*   Updated: 2025/04/12 14:05:51 by aternero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header_file/so_long.h"
+#include "ft_printf.h"
 
-t_game	*game_initialize(char *argv)
+int	ft_printstr(char *str)
 {
-	t_game	*game;
+	int	index;
+	int	value;
 
-	game = (t_game *)malloc(sizeof(t_game));
-	if (!game)
-		return (FALSE);
-	game->map = mapval_gnl(argv, game->map, 1);
-	if (!game->map)
+	index = 0;
+	value = 0;
+	if (!str)
 	{
-		free(game);
-		return (FALSE);
+		write(1, "(null)", 6);
+		return (6);
 	}
-	game->player = (t_object *)malloc(sizeof(t_object));
-	if (!game->player)
+	while (str[index])
 	{
-		free_game(game);
-		return (FALSE);
+		write(1, &str[index], 1);
+		index++;
+		value++;
 	}
-	return (game);
+	return (value);
 }
