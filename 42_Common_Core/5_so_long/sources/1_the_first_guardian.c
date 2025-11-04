@@ -6,7 +6,7 @@
 /*   By: aternero <aternero@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:23:33 by aternero          #+#    #+#             */
-/*   Updated: 2025/04/12 20:19:06 by aternero         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:12:37 by aternero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,9 @@ int	mapval_rectangle(char *line, int length)
 		map_error("The map isn't a rectangle or it has an invalid char.", 0, 0);
 		return (FALSE);
 	}
-	return (TRUE);
+	return (TRUE)
 }
 
-int	mapval_ber(char *argv)
-{
-	int	index;
-
-	index = 0;
-	while (argv[index] != '\0')
-	{
-		if (argv[index] == '.')
-		{
-			if (argv[index + 1] == 'b' && argv[index + 2] == 'e'
-				&& argv[index + 3] == 'r' && !argv[index + 4])
-			{
-				map_error("The map is in the valid format.", 1, 0);
-				return (TRUE);
-			}
-		}
-		index++;
-	}
-	ft_printf("It's necessary a map with '.ber' extension as an argument.\n");
-	map_error("\tUsage: ./so_long [map.ber]\n", 0, 0);
-	return (FALSE);
-}
 
 int	map_validator(char *argv)
 {
