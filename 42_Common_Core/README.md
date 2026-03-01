@@ -54,8 +54,8 @@ This repository showcases my complete journey through the **42 Common Core** cur
 | Project | Description | Technologies | Status |
 |---------|-------------|--------------|--------|
 | **[netpractice](./8_netpractice)** | Network configuration and subnetting | `TCP/IP` `Subnetting` `Routing` | ✅ **100%** |
-| **examrank04** | Exam: Advanced systems and networking | `C` `Networks` `Systems` | 🔄 **In Progress** |
-| **cub3d** | 3D game engine (raycasting) | `C` `MLX42` `3D Graphics` `Raycasting` | 🔄 **In Progress** |
+| **examrank04** | Exam: Advanced systems and networking | `C` `Networks` `Systems` | 🔄 **In Progress** | ✅ **100%** |
+| **cub3d** | 3D game engine (raycasting) | `C` `MLX42` `3D Graphics` `Raycasting` | 🔄 **In Progress** | ✅ **105%** |
 | **CPP 00-04** | C++ programming modules | `C++` `OOP` `STL` | 🔄 **In Progress** |
 
 ## 🚀 Project Highlights

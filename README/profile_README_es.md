@@ -190,10 +190,11 @@ En 42 School, he adoptado la **metodología de aprendizaje peer-to-peer** donde 
 
 #### **🎮 cub3d** (En Progreso)
 > *Motor de juego 3D usando algoritmo de raycasting*
+_Rol asignado: parseor y renderizador_
 
 **Programación de Gráficos 3D:**
 - 🔄 **Implementación de algoritmos de raycasting**
-- 🔄 **Mapeo de texturas** y renderizado de paredes
+- ✅ **Mapeo de texturas** y renderizado de paredes
 - 🔄 **Movimiento del jugador** y detección de colisiones
 - 🔄 **Minimapa** y mecánicas de juego
 
@@ -201,7 +202,7 @@ En 42 School, he adoptado la **metodología de aprendizaje peer-to-peer** donde 
 > *Programación orientada a objetos en C++*
 
 **Fundamentos de C++:**
-- 🔄 **Clases y objetos** (CPP00)
+- ✅ **Clases y objetos** (CPP00)
 - 🔄 **Asignación de memoria** y referencias (CPP01)
 - 🔄 **Sobrecarga de operadores** (CPP02)
 - 🔄 **Herencia** (CPP03)
