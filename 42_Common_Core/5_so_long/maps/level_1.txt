@@ -1,1 +1,0 @@
-El mapa debe tener una salida, una posición inicial y al menos un objeto coleccionable.

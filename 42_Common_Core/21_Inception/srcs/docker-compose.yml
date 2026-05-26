@@ -1,0 +1,100 @@
+# La versión 3 es ideal para proyectos Inception ya que soporta volúmenes y redes explícitas localmente.
+
+services:
+# Define los contenedores (servicios) que formarán nuestra aplicación multicontenedor.
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    # Nombramos explícitamente el contenedor porque la norma 42 lo exige,
+    # y nos facilita los comandos 'docker exec' al no tener strings aleatorias.
+    build: requirements/mariadb
+    # Especificamos dónde reside el Dockerfile del que se construirá esta imagen.
+    restart: always
+    # 'always' fuerza al contenedor a reiniciarse siempre si se crashea o el host (VM) se reinicia.
+    env_file: .env
+    # Mapea nuestro archivo '.env' inyectando todas sus variables en el entorno de este contenedor.
+    networks:
+      - inception
+    # Indicamos que este contenedor pertenece a una red aislada personalizada (bridge).
+    volumes:
+      - mariadb:/var/lib/mysql
+    # Enlaza el volumen persistente 'mariadb' al directorio interno del contenedor 
+    # donde MariaDB de Alpine guarda lógicamente los datos tabulares.
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build: requirements/wordpress
+    restart: always
+    env_file: .env
+    depends_on:
+      - mariadb
+    # 'depends_on' controla el orden de inicio: indica que wordpress comenzará 
+    # a crearse/levantarse después que mariadb (aunque no garantiza que mariadb 
+    # haya terminado su setup interno completo). Mucha gente piensa que esto siginifa que:
+    # "docker esperará que mariadb esté 100% listo antes de encender Wordpress". ESTO ES FALSO.
+    # Sólo asegura que el contenedor mariadb "se ha encendido", pero mariadb tarda entre 3 y 8
+    # segundos en inicializar sus bases de datos (mariadb-install.db), asegurar usuarios y 
+    # levantar el daemon (mysql -- bootstrap). Durante ese tiempo, WordPress puede ir demasiado
+    # rápido en su script wordpress.sh, descargando los ficheros wp core download, gerando el 
+    # archivo wp config create (escribiendo el wp-config.php) y ... ¡BUM! todavía no había terminado 
+    # de arrancar el otro contenedor y no puede conectar a mariadb, lo que genera un error de conexión
+    # ("Error establishing a database connection") y el contenedor de wordpress se queda en bucle 
+    # de reinicio. Para solucionar esto, se implementa un "bucle de espera vital" en el wordpress.sh,
+    # que se ejecuta antes de lanzar el código principal de wordpress.sh, y que hace un loop de chequeo 
+    # cada 2 segundos intentando conectar a mariadb (host: mariadb, puerto: 3306) hasta que finalmente 
+    # lo consigue y entonces lanza el script de wordpress.sh.
+    networks:
+      - inception
+    # Esta red es la misma que la de mariadb, lo que permite que ambos contenedores se comuniquen entre sí 
+    # usando los nombres de servicio como hostnames (mariadb y wordpress).
+    volumes:
+      - wordpress:/var/www/wordpress
+    # Enlaza el volumen persistente para no perder los archivos vitales (.php)
+    # y el site configurado entre distintos reinicios.
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    build: requirements/nginx
+    restart: always
+    env_file: .env
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    ports:
+      - "443:443"
+    # Publica o "enlaza" el puerto 443 del contenedor al puerto 443 del host.
+    # Es el único punto de entrada expuesto y habilitado hacia nuestra VM (host) mediante TCP.
+    volumes:
+      - wordpress:/var/www/wordpress
+    # NGINX también necesita acceso al volumen de wordpress porque nginx atiende
+    # archivos y peticiones a nivel archivo (ej. index.php) pasándolas mediante FastCGI.
+
+networks:
+# Define las redes aisladas para este proyecto
+  inception:
+    name: inception
+    driver: bridge
+    # 'bridge' es el tipo por defecto para entornos locales. Aísla la red 
+    # para que los contenedores solo se comuniquen entre los definidos aquí adentro.
+
+volumes:
+# Define los volúmenes con nombre (persistentes) para montar data del host
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${CURRENT_USER}/data/mariadb
+      # Truco mágico para los requerimientos del Subject:
+      # Vincula un 'volumen con nombre' tradicional (abstracto de docker) directamente 
+      # a una ruta dura específica (bind) en nuestra máquina virtual local Host.
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${CURRENT_USER}/data/wordpress

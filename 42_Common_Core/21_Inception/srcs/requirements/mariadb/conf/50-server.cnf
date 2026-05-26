@@ -1,0 +1,45 @@
+[mysqld]
+# Grupo de configuraciones específicas para el servidor MariaDB/MySQL (mysqld)
+
+user = mysql
+# Especifica el usuario de Linux (dentro del contenedor) que ejecuta el proceso.
+# Por seguridad, nunca se debe ejecutar como root.
+
+pid-file = /run/mysqld/mysqld.pid
+# Archivo donde MariaDB guarda su Process ID (PID).
+# Útil para que el sistema sepa el número de tarea exacta si necesita detenerlo.
+
+socket = /run/mysqld/mysqld.sock
+# Ruta del socket de Unix. Permite conexiones locales muy rápidas al servidor 
+# sin necesidad de usar protocolos de red TCP/IP.
+
+port = 3306
+# Puerto de escucha estándar de MariaDB para conexiones de red.
+# Redirigiremos WordPress a este puerto mediante el docker-compose.
+
+basedir = /usr
+# Directorio base de la instalación de MariaDB.
+
+datadir = /var/lib/mysql
+# Directorio donde MariaDB guarda físicamente los datos (las tablas de la DB).
+# Fundamental en Inception: este es el directorio que montamos 
+# como un volumen peristente en el host para no perder la información al reiniciar.
+
+tmpdir = /tmp
+# Directorio para archivos temporales necesarios en conexiones o cálculos complejos.
+
+lc-messages-dir = /usr/share/mysql
+# Directorio de los archivos de idioma para los mensajes de error.
+
+# Permite que la base de datos sea accesible desde otras IPs de nuestra red de Docker
+bind-address = 0.0.0.0
+# ¡Súper importante!: Por defecto MariaDB solo escucha conexiones de 127.0.0.1 (localhost).
+# Al asignarle 0.0.0.0, le permitimos aceptar conexiones desde cualquier IP, 
+# permitiendo así que el contenedor de WordPress llegue hasta él a través de la red 'inception'.
+
+# Configuraciones extra para optimizar y silenciar alertas de Alpine
+query_cache_size = 16M
+# Asigna memoria temporal para las consultas repetitivas de lectura (mejora rendimiento).
+
+log_error = /var/log/mysql/error.log
+# Define la ruta para guardar el registro de errores, esencial para depurar.
