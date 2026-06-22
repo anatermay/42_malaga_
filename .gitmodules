@@ -1,0 +1,3 @@
+[submodule "42-advance-outer-core"]
+	path = 42-advance-outer-core
+	url = git@github.com:anatermay/42-advance-outer-core.git
